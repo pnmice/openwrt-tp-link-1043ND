@@ -1,0 +1,7 @@
+---
+  - name: rm dir /overlay/lib
+    file: dest=/overlay/lib state=absent
+  
+  - name: rm dir /overlay/usr
+    file: dest=/overlay/usr state=absent
+
