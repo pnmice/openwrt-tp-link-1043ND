@@ -3,7 +3,7 @@
 set -o verbose
 set -o xtrace
 
-ip=`cat hosts | tail +2 | cut -d ' ' -f1`
+ip=$1
 ssh="ssh root@$ip"
 
 

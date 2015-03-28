@@ -1,0 +1,27 @@
+
+config system
+        option hostname 'media'
+        option zonename 'America/Los Angeles'
+        option timezone 'PST8PDT,M3.2.0,M11.1.0'
+        option conloglevel '8'
+        option cronloglevel '8'
+
+config timeserver 'ntp'
+	list server '0.openwrt.pool.ntp.org'
+	list server '1.openwrt.pool.ntp.org'
+	list server '2.openwrt.pool.ntp.org'
+	list server '3.openwrt.pool.ntp.org'
+	option enable_server '0'
+
+config led 'led_usb'
+	option name 'USB'
+	option sysfs 'tp-link:green:usb'
+	option trigger 'usbdev'
+	option dev '1-1'
+	option interval '50'
+
+config led 'led_wlan'
+	option name 'WLAN'
+	option sysfs 'tp-link:green:wlan'
+	option trigger 'phy0tpt'
+
