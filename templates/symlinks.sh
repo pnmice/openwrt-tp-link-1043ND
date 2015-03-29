@@ -1,7 +1,7 @@
 #!/bin/sh
 
-set -o verbose
-set -o xtrace
+#set -o verbose
+#set -o xtrace
 
 
 for x in $(ls /opt/usr/)

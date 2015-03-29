@@ -2,4 +2,4 @@
   opkg: name={{ item }} state=present
   with_items:
           #- openssh-sftp-server
-          - fdisk
+          - htop

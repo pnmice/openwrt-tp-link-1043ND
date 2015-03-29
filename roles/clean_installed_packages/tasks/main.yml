@@ -5,3 +5,18 @@
   - name: rm dir /overlay/usr
     file: dest=/overlay/usr state=absent
 
+  - name: restart server
+    command: reboot "Reboot triggered by Ansible"
+    async: 0
+    poll: 0
+    ignore_errors: true
+
+  - name: wait for server to restart
+    local_action:
+        module: wait_for
+          host={{ inventory_hostname }}
+          port=22
+          delay=1
+          timeout=300
+  - debug: msg="After that exec "sh templates/mount_hdd.sh""
+

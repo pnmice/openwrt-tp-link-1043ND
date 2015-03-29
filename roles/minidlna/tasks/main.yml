@@ -1,0 +1,88 @@
+---
+  - name: update opkg
+    shell: opkg update
+ 
+  - name: install minidlna
+    shell: opkg -dest usb install minidlna
+
+  - name: check file if it exists
+    stat: path=/root/symlinks.sh
+    register: st
+  
+  - name: copy file if not
+    copy: src=templates/symlinks.sh dest=/root mode=755
+    when: not st.stat.exists
+
+  - name: create common symlinks
+    shell: sh /root/symlinks.sh 
+    ignore_errors: yes   
+  
+  - name: check file if it exists /etc/config/minidlna
+    stat: path=/etc/config/minidlna
+    register: st1
+
+  - name: delete /etc/config/minidlna
+    file: path=/etc/config/minidlna state=absent 
+    when: st1.stat.exists
+  
+  - name: check file if it exists /etc/init.d/minidlna
+    stat: path=/etc/init.d/minidlna
+    register: st2
+
+  - name: delete /etc/init.d/minidlna
+    file: path=/etc/init.d/minidlna state=absent
+    when: st2.stat.exists
+  
+  - name: create dirs
+    file: path=/opt/var/run/minidlna state=directory
+  
+  - name: create dirs
+    file: path=/opt/var/log state=directory
+  
+  - name: create dirs
+    file: path=/opt/minidlna/music state=directory
+
+  - name: create dirs
+    file: path=/opt/minidlna/picture state=directory
+
+  - name: create dirs
+    file: path=/opt/minidlna/video state=directory
+
+  - name: delete config
+    file: path=/opt/etc/config/minidlna state=absent
+
+  - name: create config from template
+    template: src=minidlna.j2 dest=/opt/etc/config/minidlna mode=600     
+
+  - name: create sym links for config
+    file: src=/opt/etc/config/minidlna dest=/etc/config/minidlna state=link
+
+  - name: create sym links for config 2
+    file: src=/opt/etc/init.d/minidlna dest=/etc/init.d/minidlna state=link   
+  
+  - name: add rule in firewall
+    blockinfile: |
+      dest=/etc/config/firewall
+      marker="#{mark} minidlna"
+      content="
+                config rule
+                        option target "ACCEPT"
+                        option src "wan"
+                        option proto "tcp"
+                        option dest_port "8200"
+                        option name "minidlna8200"
+                config rule
+                        option target "ACCEPT"
+                        option src "wan"
+                        option proto "udp"
+                        option dest_port "1900"
+                        option name "minidlna1900""
+  - name: restart firewall
+    shell: /etc/init.d/firewall restart
+ 
+  - name: restart minidlna
+    shell: /etc/init.d/minidlna restart
+   
+
+ 
+
