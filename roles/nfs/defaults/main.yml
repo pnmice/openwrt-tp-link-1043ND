@@ -1,8 +1,0 @@
-interface: "wlan0-1"
-friendly_name: "DLNA Server"
-db_dir: "/opt/var/run/minidlna"
-log_dir: "/opt/var/log"
-media_dirA: "/opt/minidlna/music"
-media_dirP: "/opt/minidlna/picture"
-media_dirV: "/opt/minidlna/video"
-
