@@ -1,0 +1,130 @@
+---
+  - name: install nfs-kernel-server
+    opkg: name={{ item }} state=absent update_cache=yes
+    with_items:
+       - unfs3
+       - kmod-fs-nfsd
+       - kmod-fs-nfs
+       - kmod-fs-nfs-common
+       - portmap
+       - nfs-kernel-server
+       - nfs-kernel-server-utils
+       - nfs-utils
+       - nfs-server
+       - libwrap
+       - libevent
+         
+
+#  - name: update opkg
+#    shell: opkg update
+# 
+#  - name: install nfs
+#    shell: opkg -dest usb install nfs-kernel-server
+#
+#  - name: check file if it exists
+#    stat: path=/root/symlinks.sh
+#    register: st
+#  
+#  - name: copy file if not
+#    copy: src=templates/symlinks.sh dest=/root mode=755
+#    when: not st.stat.exists
+#
+#  - name: create common symlinks
+#    shell: sh /root/symlinks.sh 
+#    ignore_errors: yes   
+#  
+#  - name: check file if it exists /etc/init.d/nfsd
+#    stat: path=/etc/init.d/nfsd
+#    register: st1
+#
+#  - name: delete /etc/init.d/nfsd
+#    file: path=/etc/init.d/nfsd state=absent 
+#    when: st1.stat.exists
+#  
+#  - name: check file if it exists /etc/init.d/portmap
+#    stat: path=/etc/init.d/portmap
+#    register: st2
+#
+#  - name: delete /etc/init.d/portmap
+#    file: path=/etc/init.d/portmap state=absent
+#    when: st2.stat.exists
+#
+#  - name: check file if it exists /etc/exports
+#    stat: path=/etc/exports
+#    register: st3
+#
+#  - name: delete /etc/exports
+#    file: path=/etc/exports state=absent
+#    when: st3.stat.exists
+#
+#  - name: delete /etc/modules.d/
+#    file: path=/etc/modules.d/{{ item }} state=absent
+#    with_items:
+#      - 20-fs-exportfs
+#      - 30-fs-nfs-common
+#      - 40-fs-nfs
+#      - 40-fs-nfsd
+
+#  - name: delete config
+#    file: path=/opt/etc/config/minidlna state=absent
+
+#  - name: create config from template
+#    template: src=minidlna.j2 dest=/opt/etc/config/minidlna mode=600     
+
+#  - name: create sym links for config
+#    file: src=/opt/etc/init.d/nfsd dest=/etc/init.d/nfsd state=link
+#
+#  - name: create sym links for config 2
+#    file: src=/opt/etc/init.d/portmap dest=/etc/init.d/portmap state=link
+#
+#  - name: create sym links for config 3
+#    file: src=/opt/etc/exports dest=/etc/exports state=link   
+#
+#  - name: create sym links for config 4
+#    file: src=/opt/etc/modules.d/{{ item }} dest=/etc/modules.d/{{ item }} state=link
+#    with_items:
+#      - 20-fs-exportfs
+#      - 30-fs-nfs-common
+#      - 40-fs-nfs
+#      - 40-fs-nfsd    
+  
+#  - name: add rule in firewall
+#    blockinfile: |
+#      dest=/etc/config/firewall
+#      marker="#{mark} nfs"
+#      content="
+#                config rule
+#                        option target "ACCEPT"
+#                        option src "wan"
+#                        option proto "tcp"
+#                        option dest_port "111"
+#                        option name "portmap111"
+#                config rule
+#                        option target "ACCEPT"
+#                        option src "wan"
+#                        option proto "udp"
+#                        option dest_port "111"
+#                        option name "portmap111"
+#                config rule
+#                        option target "ACCEPT"
+#                        option src "wan"
+#                        option proto "tcp"
+#                        option dest_port "32777:32780"
+#                        option name "nfs32777:32780"
+#                config rule
+#                        option target "ACCEPT"
+#                        option src "wan"
+#                        option proto "udp"
+#                        option dest_port "32777:32780"
+#                        option name "nfs32777:32780""
+
+#  - name: restart portmap
+#    shell: /etc/init.d/portmap restart
+ 
+#  - name: restart nfs
+#    shell: /etc/init.d/nfsd restart
+   
+#  - name: restart firewall
+#    shell: /etc/init.d/firewall restar
+ 
+
